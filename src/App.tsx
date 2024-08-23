@@ -24,7 +24,6 @@ export function App() {
   }, []);
 
 
-
   return (
 
       <div className='flex justify-center'>
@@ -35,4 +34,4 @@ export function App() {
       </div>
  
   );
-}
+} 
