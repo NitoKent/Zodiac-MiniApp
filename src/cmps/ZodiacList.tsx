@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../App.css';
+import { RootState } from '../store/store';
 import libraImage from '../assets/libra.png';
 import taurusImage from '../assets/taurus.png';
 import ariesImage from '../assets/aries.png';
@@ -61,29 +62,29 @@ export function ZodiacList() {
     };
   
     return (
-      <div className='flex-grow mt-9 bg-[#fcfcfc] rounded-t-[46px] relative top-glow z-0'>
-        <div className='overflow-y-auto absolute top-[3px] left-0 right-0 bottom-0 bg-[#111418] rounded-t-[44px] p-4'>
-          <div className="grid grid-cols-3 gap-4 mt-4">
-            {zodiacSigns.map((sign) => (
-              <div
-                key={sign.name}
-                className="bg-gradient-to-t from-blue-400 to-slate-800 border-none rounded-xl h-44 text-center text-white flex flex-col justify-center items-center cursor-pointer"
-                onClick={() => handleSignClick(sign)}
-              >
-                <h1 className="text-lg text-orange-300">{sign.name}</h1>
-                <p className="text-sm">{sign.period}</p>
-                <img src={sign.img} alt={sign.name} className="mt-auto mb-2 w-24 h-24" />
-              </div>
-            ))}
-          </div>
+        <div className='flex-grow mt-9 bg-[#fcfcfc] rounded-t-[46px] relative top-glow z-0'>
+            <div className='overflow-y-auto absolute top-[3px] left-0 right-0 bottom-0 bg-[#111418] rounded-t-[44px] p-4'>
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                    {zodiacSigns.map((sign) => (
+                        <div
+                            key={sign.name}
+                            className="bg-gradient-to-t from-blue-400 to-slate-800 border-none rounded-xl h-44 text-center text-white flex flex-col justify-center items-center cursor-pointer"
+                            onClick={() => handleSignClick(sign)}
+                        >
+                            <h1 className="text-lg text-orange-300">{sign.name}</h1>
+                            <p className="text-sm">{sign.period}</p>
+                            <img src={sign.img} alt={sign.name} className="mt-auto mb-2 w-24 h-24" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+            {isModalOpen && selectedSign && horoscopeData && (
+                <ZodiacDetails
+                    sign={selectedSign}
+                    data={horoscopeData}
+                    onClose={closeModal}
+                />
+            )}
         </div>
-        {isModalOpen && selectedSign && horoscopeData && (
-          <ZodiacDetails
-            sign={selectedSign}
-            data={horoscopeData}
-            onClose={closeModal}
-          />
-        )}
-      </div>
     );
   }

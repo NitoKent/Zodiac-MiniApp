@@ -1,17 +1,15 @@
-
-import { configureStore, createSlice } from '@reduxjs/toolkit';
-
+import { configureStore, createSlice, } from '@reduxjs/toolkit';
 
 const languageSlice = createSlice({
   name: 'language',
-  initialState: 'en',
+  initialState: 'en', 
   reducers: {
     setLanguage: (state, action) => {
+      
       return action.payload; 
     },
   },
 });
-
 
 export const { setLanguage } = languageSlice.actions;
 
