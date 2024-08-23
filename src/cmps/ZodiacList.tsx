@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import '../App.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store'; // Импорт типа RootState
+import { getHoroscope, HoroscopeData } from '../service/zodiacApi';
+import { ZodiacDetails } from './ZodiacDetails';
 import libraImage from '../assets/libra.png';
 import taurusImage from '../assets/taurus.png';
 import ariesImage from '../assets/aries.png';
@@ -12,9 +15,6 @@ import sagittariusImage from '../assets/sagittarius.png';
 import capricornImage from '../assets/capricorn.png';
 import aquariusImage from '../assets/aquarius.png';
 import piscesImage from '../assets/pisces.png';
-import { getHoroscope, HoroscopeData } from '../service/zodiacApi';
-import { ZodiacDetails } from './ZodiacDetails';
-import {  useSelector } from 'react-redux';
 
 interface ZodiacSign {
   name: string;
@@ -23,7 +23,7 @@ interface ZodiacSign {
 }
 
 const zodiacSigns: ZodiacSign[] = [
-  { name: 'Aries', period: '23 Aug', img: ariesImage },
+  { name: 'Aries', period: 'today', img: ariesImage },
   { name: 'Taurus', period: '20 Apr - 20 May', img: taurusImage },
   { name: 'Gemini', period: '21 May - 20 Jun', img: geminiImage },
   { name: 'Cancer', period: '21 Jun - 22 Jul', img: cancerImage },
@@ -36,52 +36,60 @@ const zodiacSigns: ZodiacSign[] = [
   { name: 'Aquarius', period: '20 Jan - 18 Feb', img: aquariusImage },
   { name: 'Pisces', period: '19 Feb - 20 Mar', img: piscesImage },
 ];
+
 export function ZodiacList() {
-    // const dispatch = useDispatch();
-    const language = useSelector((state: any) => state.language);
-    const [selectedSign, setSelectedSign] = useState<ZodiacSign | null>(null);
-    const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  
-    const handleSignClick = async (sign: ZodiacSign) => {
-      const data = await getHoroscope(sign.name.toLowerCase(), language === 'en' ? 'translated' : 'original', 'today');
+  const language = useSelector((state: RootState) => state.language.value); // Используем язык из состояния Redux
+  const [selectedSign, setSelectedSign] = useState<ZodiacSign | null>(null);
+  const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleSignClick = async (sign: ZodiacSign) => {
+    try {
+      const data = await getHoroscope(
+        sign.name.toLowerCase(),
+        language === 'en' ? 'translated' : 'original',
+        'today'
+      );
       if (data) {
         setHoroscopeData(data);
         setSelectedSign(sign);
         setIsModalOpen(true);
       }
-    };
-  
-    const closeModal = () => {
-      setIsModalOpen(false);
-      setSelectedSign(null);
-      setHoroscopeData(null);
-    };
-  
-    return (
-        <div className='flex-grow mt-9 bg-[#fcfcfc] rounded-t-[46px] relative top-glow z-0'>
-            <div className='overflow-y-auto absolute top-[3px] left-0 right-0 bottom-0 bg-[#111418] rounded-t-[44px] p-4'>
-                <div className="grid grid-cols-3 gap-4 mt-4">
-                    {zodiacSigns.map((sign) => (
-                        <div
-                            key={sign.name}
-                            className="bg-gradient-to-t from-blue-400 to-slate-800 border-none rounded-xl h-44 text-center text-white flex flex-col justify-center items-center cursor-pointer"
-                            onClick={() => handleSignClick(sign)}
-                        >
-                            <h1 className="text-lg text-orange-300">{sign.name}</h1>
-                            <p className="text-sm">{sign.period}</p>
-                            <img src={sign.img} alt={sign.name} className="mt-auto mb-2 w-24 h-24" />
-                        </div>
-                    ))}
-                </div>
+    } catch (error) {
+      console.error('Error fetching horoscope data:', error);
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedSign(null);
+    setHoroscopeData(null);
+  };
+
+  return (
+    <div className='flex-grow mt-9 bg-[#fcfcfc] rounded-t-[46px] relative top-glow z-0'>
+      <div className='overflow-y-auto absolute top-[3px] left-0 right-0 bottom-0 bg-[#111418] rounded-t-[44px] p-4'>
+        <div className='grid grid-cols-3 gap-4 mt-4'>
+          {zodiacSigns.map((sign) => (
+            <div
+              key={sign.name}
+              className='bg-gradient-to-t from-blue-400 to-slate-800 border-none rounded-xl h-44 text-center text-white flex flex-col justify-center items-center cursor-pointer'
+              onClick={() => handleSignClick(sign)}
+            >
+              <h1 className='text-lg text-orange-300'>{sign.name}</h1>
+              <p className='text-sm'>{sign.period}</p>
+              <img src={sign.img} alt={sign.name} className='mt-auto mb-2 w-24 h-24' />
             </div>
-            {isModalOpen && selectedSign && horoscopeData && (
-                <ZodiacDetails
-                    sign={selectedSign}
-                    data={horoscopeData}
-                    onClose={closeModal}
-                />
-            )}
+          ))}
         </div>
-    );
-  }
+      </div>
+      {isModalOpen && selectedSign && horoscopeData && (
+        <ZodiacDetails
+          sign={selectedSign}
+          data={horoscopeData}
+          onClose={closeModal}
+        />
+      )}
+    </div>
+  );
+}
