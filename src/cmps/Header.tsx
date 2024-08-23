@@ -1,8 +1,7 @@
-
 import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage } from '../store/slices/languageSlice';
 import { translate } from '../service/translations';
-import { RootState, AppDispatch } from '../store/store'; // Импорт исправлен
+import { RootState, AppDispatch } from '../store/store';
 
 interface HeaderProps {
   userData: UserData | null;
@@ -19,21 +18,29 @@ interface UserData {
 
 export function Header({ userData }: HeaderProps) {
   const dispatch = useDispatch<AppDispatch>();
-  const language = useSelector((state: RootState) => state.language.value); // Используем .value
+  const language = useSelector((state: RootState) => state.language.value);
 
+  // Функция для переключения языка
   const toggleLanguage = () => {
     dispatch(setLanguage(language === 'en' ? 'ru' : 'en'));
   };
 
   return (
-    <header className='flex p-4'>
+    <header className='flex p-4 items-center'>
       <div className='flex flex-col'>
-        <h1 className='text-xl'>{translate('appTitle', language)}</h1>
+        <h1 className='text-xl font-bold'>
+          {translate('appTitle', language)}
+        </h1>
         <p className='text-blue-400'>
-          Welcome <b className='text-orange-300'>{userData?.first_name}</b>
+          {userData
+            ? translate('welcomeMessage', language, { name: userData.first_name })
+            : translate('guestMessage', language)}
         </p>
       </div>
-      <button onClick={toggleLanguage} className='ml-auto border rounded-xl w-20 text-sm'>
+      <button
+        onClick={toggleLanguage}
+        className='ml-auto border rounded-xl px-4 py-2 text-xl'
+      >
         {language === 'en' ? 'RU' : 'EN'}
       </button>
     </header>

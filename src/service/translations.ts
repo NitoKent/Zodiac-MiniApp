@@ -26,9 +26,11 @@ interface Translations {
       color: 'Color',
       strength: 'Strength',
       weakness: 'Weakness',
+      welcomeMessage: 'Welcome, {name}!',
+      guestMessage: 'Welcome, Guest!',
     },
     ru: {
-      appTitle: 'Зодиак Приложение',
+      appTitle: 'Зодиак',
       aries: 'Овен',
       taurus: 'Телец',
       gemini: 'Близнецы',
@@ -48,10 +50,20 @@ interface Translations {
       color: 'Цвет',
       strength: 'Сила',
       weakness: 'Слабость',
+      welcomeMessage: 'Добро пожаловать, {name}!',
+      guestMessage: 'Добро пожаловать, Гость!',
     },
-    
-    
-}
-export const translate = (key: string, language: string) => {
-    return translations[language]?.[key] || translations['en'][key];
   };
+  
+  export const translate = (key: string, language: string, params?: { [key: string]: string }) => {
+    let translation = translations[language]?.[key] || translations['en'][key];
+    
+    if (params) {
+      Object.keys(params).forEach(paramKey => {
+        translation = translation.replace(`{${paramKey}}`, params[paramKey]);
+      });
+    }
+    
+    return translation;
+  };
+  

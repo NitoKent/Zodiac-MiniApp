@@ -12,23 +12,32 @@ interface ZodiacSign {
   img: string;
 }
 
+const getFormattedDate = (date: Date) => {
+  const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short' };
+  return date.toLocaleDateString('en-US', options).replace('.', '');
+};
+
+const today = new Date();
+const todayFormatted = getFormattedDate(today);
+
+
 const zodiacSigns: ZodiacSign[] = [
-  { name: 'aries', period: '21 Mar - 19 Apr', img: zodiacImages.Aries },
-  { name: 'taurus', period: '20 Apr - 20 May', img: zodiacImages.Taurus },
-  { name: 'gemini', period: '21 May - 20 Jun', img: zodiacImages.Gemini },
-  { name: 'cancer', period: '21 Jun - 22 Jul', img: zodiacImages.Cancer },
-  { name: 'leo', period: '23 Jul - 22 Aug', img: zodiacImages.Leo },
-  { name: 'virgo', period: '23 Aug - 22 Sep', img: zodiacImages.Virgo },
-  { name: 'libra', period: '23 Sep - 22 Oct', img: zodiacImages.Libra },
-  { name: 'scorpio', period: '23 Oct - 21 Nov', img: zodiacImages.Scorpio },
-  { name: 'sagittarius', period: '22 Nov - 21 Dec', img: zodiacImages.Sagittarius },
-  { name: 'capricorn', period: '22 Dec - 19 Jan', img: zodiacImages.Capricorn },
-  { name: 'aquarius', period: '20 Jan - 18 Feb', img: zodiacImages.Aquarius },
-  { name: 'pisces', period: '19 Feb - 20 Mar', img: zodiacImages.Pisces },
+  { name: 'aries', period: todayFormatted, img: zodiacImages.Aries },
+  { name: 'taurus', period: todayFormatted, img: zodiacImages.Taurus },
+  { name: 'gemini', period: todayFormatted, img: zodiacImages.Gemini },
+  { name: 'cancer', period: todayFormatted, img: zodiacImages.Cancer },
+  { name: 'leo', period: todayFormatted, img: zodiacImages.Leo },
+  { name: 'virgo', period: todayFormatted, img: zodiacImages.Virgo },
+  { name: 'libra', period: todayFormatted, img: zodiacImages.Libra },
+  { name: 'scorpio', period: todayFormatted, img: zodiacImages.Scorpio },
+  { name: 'sagittarius', period: todayFormatted, img: zodiacImages.Sagittarius },
+  { name: 'capricorn', period: todayFormatted, img: zodiacImages.Capricorn },
+  { name: 'aquarius', period: todayFormatted, img: zodiacImages.Aquarius },
+  { name: 'pisces', period: todayFormatted, img: zodiacImages.Pisces },
 ];
 
 export function ZodiacList() {
-  const language = useSelector((state: RootState) => state.language.value); 
+  const language = useSelector((state: RootState) => state.language.value);
   const [selectedSign, setSelectedSign] = useState<ZodiacSign | null>(null);
   const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
