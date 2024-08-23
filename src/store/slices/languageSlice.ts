@@ -1,15 +1,15 @@
-// slices/languageSlice.ts
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Тип для состояния языка
+
 interface LanguageState {
   value: string;
 }
 
-// Создание среза состояния для языка
+
 const languageSlice = createSlice({
   name: 'language',
-  initialState: { value: 'en' } as LanguageState, // Начальное состояние
+  initialState: { value: 'en' } as LanguageState, 
   reducers: {
     setLanguage: (state, action: PayloadAction<string>) => {
       state.value = action.payload; 

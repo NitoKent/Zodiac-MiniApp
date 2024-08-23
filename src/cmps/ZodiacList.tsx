@@ -4,7 +4,7 @@ import { RootState } from '../store/store';
 import { getHoroscope, HoroscopeData } from '../service/zodiacApi';
 import { ZodiacDetails } from './ZodiacDetails';
 import zodiacImages from '../service/zodiacImages';
-import { translate } from '../service/translations'; // Импорт функции translate
+import { translate } from '../service/translations'; 
 
 interface ZodiacSign {
   name: string;
@@ -28,7 +28,7 @@ const zodiacSigns: ZodiacSign[] = [
 ];
 
 export function ZodiacList() {
-  const language = useSelector((state: RootState) => state.language.value); // Используем язык из состояния Redux
+  const language = useSelector((state: RootState) => state.language.value); 
   const [selectedSign, setSelectedSign] = useState<ZodiacSign | null>(null);
   const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -62,7 +62,6 @@ export function ZodiacList() {
               className='bg-gradient-to-t from-blue-400 to-slate-800 border-none rounded-xl h-44 text-center text-white flex flex-col justify-center items-center cursor-pointer'
               onClick={() => handleSignClick(sign)}
             >
-              {/* Переводим название знака только для отображения */}
               <h1 className='text-lg text-orange-300'>{translate(sign.name, language)}</h1>
               <p className='text-sm'>{sign.period}</p>
               <img src={sign.img} alt={sign.name} className='mt-auto mb-2 w-24 h-24' />
