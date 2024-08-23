@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 
-// Константы для API
 const API_URL = 'https://poker247tech.ru/get_horoscope/';
-const MAX_RETRIES = 3; // Максимальное количество попыток
-const RETRY_DELAY = 2000; // Задержка между попытками в миллисекундах
+const MAX_RETRIES = 3; 
+const RETRY_DELAY = 2000; 
 
 export interface HoroscopeData {
   sign: string;
@@ -21,7 +20,7 @@ export const getHoroscope = async (sign: string, language: string = 'translated'
     });
     return response.data;
   } catch (error: any) {
-    // Если ошибка и количество попыток не превышено, пробуем снова
+   
     if (retries < MAX_RETRIES) {
       console.warn(`Error fetching horoscope. Retrying in ${RETRY_DELAY / 2000} seconds...`);
       await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
