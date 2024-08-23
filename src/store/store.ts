@@ -1,27 +1,16 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
-
-// Создание среза состояния для языка
-const languageSlice = createSlice({
-  name: 'language',
-  initialState: 'en', // Начальное состояние
-  reducers: {
-    setLanguage: (state, action) => {
-      // Поскольку Redux Toolkit использует Immer, вы можете изменить состояние напрямую
-      return  state=action.payload; // Обновляем состояние на основе payload
-    },
-  },
-});
-
-export const { setLanguage } = languageSlice.actions;
+// store.ts
+import { configureStore } from '@reduxjs/toolkit';
+import languageReducer from './slices/languageSlice'; // Импорт редьюсера для языка
 
 // Создание хранилища Redux
 const store = configureStore({
   reducer: {
-    language: languageSlice.reducer,
+    language: languageReducer,
   },
 });
 
 // Экспорт типа состояния для использования в компонентах
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export default store;
