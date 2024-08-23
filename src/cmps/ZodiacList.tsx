@@ -1,20 +1,10 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store/store'; // Импорт типа RootState
+import { RootState } from '../store/store';
 import { getHoroscope, HoroscopeData } from '../service/zodiacApi';
 import { ZodiacDetails } from './ZodiacDetails';
-import libraImage from '../assets/libra.png';
-import taurusImage from '../assets/taurus.png';
-import ariesImage from '../assets/aries.png';
-import geminiImage from '../assets/gemini.png';
-import cancerImage from '../assets/cancer.png';
-import leoImage from '../assets/leo.png';
-import virgoImage from '../assets/virgo.png';
-import scorpioImage from '../assets/scorpio.png';
-import sagittariusImage from '../assets/sagittarius.png';
-import capricornImage from '../assets/capricorn.png';
-import aquariusImage from '../assets/aquarius.png';
-import piscesImage from '../assets/pisces.png';
+import zodiacImages from '../service/zodiacImages';
+import { translate } from '../service/translations'; // Импорт функции translate
 
 interface ZodiacSign {
   name: string;
@@ -22,26 +12,27 @@ interface ZodiacSign {
   img: string;
 }
 
-const zodiacSigns: ZodiacSign[] = [
-  { name: 'Aries', period: 'today', img: ariesImage },
-  { name: 'Taurus', period: '20 Apr - 20 May', img: taurusImage },
-  { name: 'Gemini', period: '21 May - 20 Jun', img: geminiImage },
-  { name: 'Cancer', period: '21 Jun - 22 Jul', img: cancerImage },
-  { name: 'Leo', period: '23 Jul - 22 Aug', img: leoImage },
-  { name: 'Virgo', period: '23 Aug - 22 Sep', img: virgoImage },
-  { name: 'Libra', period: '23 Sep - 22 Oct', img: libraImage },
-  { name: 'Scorpio', period: '23 Oct - 21 Nov', img: scorpioImage },
-  { name: 'Sagittarius', period: '22 Nov - 21 Dec', img: sagittariusImage },
-  { name: 'Capricorn', period: '22 Dec - 19 Jan', img: capricornImage },
-  { name: 'Aquarius', period: '20 Jan - 18 Feb', img: aquariusImage },
-  { name: 'Pisces', period: '19 Feb - 20 Mar', img: piscesImage },
-];
-
 export function ZodiacList() {
   const language = useSelector((state: RootState) => state.language.value); // Используем язык из состояния Redux
   const [selectedSign, setSelectedSign] = useState<ZodiacSign | null>(null);
   const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  // Определение знаков зодиака с учетом перевода
+  const zodiacSigns: ZodiacSign[] = [
+    { name: translate('aries', language), period: '21 Mar - 19 Apr', img: zodiacImages.Aries },
+    { name: translate('taurus', language), period: '20 Apr - 20 May', img: zodiacImages.Taurus },
+    { name: translate('gemini', language), period: '21 May - 20 Jun', img: zodiacImages.Gemini },
+    { name: translate('cancer', language), period: '21 Jun - 22 Jul', img: zodiacImages.Cancer },
+    { name: translate('leo', language), period: '23 Jul - 22 Aug', img: zodiacImages.Leo },
+    { name: translate('virgo', language), period: '23 Aug - 22 Sep', img: zodiacImages.Virgo },
+    { name: translate('libra', language), period: '23 Sep - 22 Oct', img: zodiacImages.Libra },
+    { name: translate('scorpio', language), period: '23 Oct - 21 Nov', img: zodiacImages.Scorpio },
+    { name: translate('sagittarius', language), period: '22 Nov - 21 Dec', img: zodiacImages.Sagittarius },
+    { name: translate('capricorn', language), period: '22 Dec - 19 Jan', img: zodiacImages.Capricorn },
+    { name: translate('aquarius', language), period: '20 Jan - 18 Feb', img: zodiacImages.Aquarius },
+    { name: translate('pisces', language), period: '19 Feb - 20 Mar', img: zodiacImages.Pisces },
+  ];
 
   const handleSignClick = async (sign: ZodiacSign) => {
     try {
