@@ -1,36 +1,36 @@
 
+import { useDispatch, useSelector } from 'react-redux';
+import { setLanguage } from '../store/store';
+import { translate } from '../service/translations';
 
-interface UserData {
-    first_name?: string;
-    last_name?: string;
-    username?: string;
-  }
-  
-  interface HeaderProps {
+interface HeaderProps {
     userData: UserData | null;
   }
   
-  // Определяем компонент Header с типизацией пропсов
-  export function Header({ userData }: HeaderProps) {
-//   const { language, setLanguage } = useState();
+  // Пропсы для типа UserData
+  interface UserData {
+    id: number;
+    first_name: string;
+    last_name?: string;
+    username?: string;
+    language_code: string;
+    is_premium?: boolean;
+  }
 
-//   const toggleLanguage = () => {
-//     setLanguage(language === 'en' ? 'ru' : 'en');
-//   };
-  const userNameDisplay = userData?.username || `${userData?.first_name || ''} ${userData?.last_name || ''}`
+export function Header() {
+  const dispatch = useDispatch();
+  const language = useSelector((state: any) => state.language);
+
+  const toggleLanguage = () => {
+    dispatch(setLanguage(language === 'en' ? 'ru' : 'en'));
+  };
 
   return (
-    <div className='px-4 z-10 flex text-xl items-center pt-4'>
-       <p className='text-blue-200'>
-        Welcome, {userNameDisplay || 'Guest'}
-      </p>
-      <div className='ml-auto'>
-        <div className='text-black border-none bg-blue-200 w-9 h-9 justify-center flex border rounded-3xl'>
-          <button >
-            
-          </button>
-        </div>
-      </div>
-    </div>
+    <header className='flex p-4'>
+      <h1 className='text-xl'>{translate('appTitle', language)}</h1>
+      <button onClick={toggleLanguage} className='ml-auto border rounded-xl w-20 text-sm'>
+        {language === 'en' ? 'RU' : 'EN'}
+      </button>
+    </header>
   );
-};
+}
