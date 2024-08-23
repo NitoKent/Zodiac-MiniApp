@@ -12,35 +12,30 @@ interface ZodiacSign {
   img: string;
 }
 
+const zodiacSigns: ZodiacSign[] = [
+  { name: 'aries', period: '21 Mar - 19 Apr', img: zodiacImages.Aries },
+  { name: 'taurus', period: '20 Apr - 20 May', img: zodiacImages.Taurus },
+  { name: 'gemini', period: '21 May - 20 Jun', img: zodiacImages.Gemini },
+  { name: 'cancer', period: '21 Jun - 22 Jul', img: zodiacImages.Cancer },
+  { name: 'leo', period: '23 Jul - 22 Aug', img: zodiacImages.Leo },
+  { name: 'virgo', period: '23 Aug - 22 Sep', img: zodiacImages.Virgo },
+  { name: 'libra', period: '23 Sep - 22 Oct', img: zodiacImages.Libra },
+  { name: 'scorpio', period: '23 Oct - 21 Nov', img: zodiacImages.Scorpio },
+  { name: 'sagittarius', period: '22 Nov - 21 Dec', img: zodiacImages.Sagittarius },
+  { name: 'capricorn', period: '22 Dec - 19 Jan', img: zodiacImages.Capricorn },
+  { name: 'aquarius', period: '20 Jan - 18 Feb', img: zodiacImages.Aquarius },
+  { name: 'pisces', period: '19 Feb - 20 Mar', img: zodiacImages.Pisces },
+];
+
 export function ZodiacList() {
   const language = useSelector((state: RootState) => state.language.value); // Используем язык из состояния Redux
   const [selectedSign, setSelectedSign] = useState<ZodiacSign | null>(null);
   const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // Определение знаков зодиака с учетом перевода
-  const zodiacSigns: ZodiacSign[] = [
-    { name: translate('aries', language), period: '21 Mar - 19 Apr', img: zodiacImages.Aries },
-    { name: translate('taurus', language), period: '20 Apr - 20 May', img: zodiacImages.Taurus },
-    { name: translate('gemini', language), period: '21 May - 20 Jun', img: zodiacImages.Gemini },
-    { name: translate('cancer', language), period: '21 Jun - 22 Jul', img: zodiacImages.Cancer },
-    { name: translate('leo', language), period: '23 Jul - 22 Aug', img: zodiacImages.Leo },
-    { name: translate('virgo', language), period: '23 Aug - 22 Sep', img: zodiacImages.Virgo },
-    { name: translate('libra', language), period: '23 Sep - 22 Oct', img: zodiacImages.Libra },
-    { name: translate('scorpio', language), period: '23 Oct - 21 Nov', img: zodiacImages.Scorpio },
-    { name: translate('sagittarius', language), period: '22 Nov - 21 Dec', img: zodiacImages.Sagittarius },
-    { name: translate('capricorn', language), period: '22 Dec - 19 Jan', img: zodiacImages.Capricorn },
-    { name: translate('aquarius', language), period: '20 Jan - 18 Feb', img: zodiacImages.Aquarius },
-    { name: translate('pisces', language), period: '19 Feb - 20 Mar', img: zodiacImages.Pisces },
-  ];
-
   const handleSignClick = async (sign: ZodiacSign) => {
     try {
-      const data = await getHoroscope(
-        sign.name.toLowerCase(),
-        language === 'en' ? 'translated' : 'original',
-        'today'
-      );
+      const data = await getHoroscope(sign.name, language === 'en' ? 'translated' : 'original', 'today');
       if (data) {
         setHoroscopeData(data);
         setSelectedSign(sign);
@@ -67,7 +62,8 @@ export function ZodiacList() {
               className='bg-gradient-to-t from-blue-400 to-slate-800 border-none rounded-xl h-44 text-center text-white flex flex-col justify-center items-center cursor-pointer'
               onClick={() => handleSignClick(sign)}
             >
-              <h1 className='text-lg text-orange-300'>{sign.name}</h1>
+              {/* Переводим название знака только для отображения */}
+              <h1 className='text-lg text-orange-300'>{translate(sign.name, language)}</h1>
               <p className='text-sm'>{sign.period}</p>
               <img src={sign.img} alt={sign.name} className='mt-auto mb-2 w-24 h-24' />
             </div>

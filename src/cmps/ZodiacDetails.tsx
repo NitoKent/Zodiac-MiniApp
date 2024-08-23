@@ -20,11 +20,11 @@ export function ZodiacDetails ({ sign, data, onClose }: ZodiacDetailsProps)  {
       <button onClick={onClose} className='absolute top-2 right-2 text-white-600'>
         &#x2715; {/* Иконка закрытия */}
       </button>
+        <img src={sign.img} alt={sign.name} className="w-24 h-24 mx-auto mb-4" />
       <h2 className='text-blue-300 text-2xl font-bold mb-4'>
         <b className='text-orange-300'>{sign.name}</b> - Daily Horoscope
-      </h2>
-      <p className='mb-4'><strong className='text-blue-300'>Horoscope:</strong> {data.horoscope}</p>
-     
+      </h2>   
+      <p className='mb-4'><strong className='text-blue-300'>Horoscope:</strong> {data.horoscope}</p>   
     </div>
   </div>
   );
