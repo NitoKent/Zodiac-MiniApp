@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import '../App.css';
-import { RootState } from '../store/store';
 import libraImage from '../assets/libra.png';
 import taurusImage from '../assets/taurus.png';
 import ariesImage from '../assets/aries.png';
@@ -15,16 +14,14 @@ import aquariusImage from '../assets/aquarius.png';
 import piscesImage from '../assets/pisces.png';
 import { getHoroscope, HoroscopeData } from '../service/zodiacApi';
 import { ZodiacDetails } from './ZodiacDetails';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 
-// Типизация знаков зодиака
 interface ZodiacSign {
   name: string;
   period: string;
   img: string;
 }
 
-// Массив знаков зодиака с типизацией
 const zodiacSigns: ZodiacSign[] = [
   { name: 'Aries', period: '23 Aug', img: ariesImage },
   { name: 'Taurus', period: '20 Apr - 20 May', img: taurusImage },
@@ -40,7 +37,7 @@ const zodiacSigns: ZodiacSign[] = [
   { name: 'Pisces', period: '19 Feb - 20 Mar', img: piscesImage },
 ];
 export function ZodiacList() {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const language = useSelector((state: any) => state.language);
     const [selectedSign, setSelectedSign] = useState<ZodiacSign | null>(null);
     const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
