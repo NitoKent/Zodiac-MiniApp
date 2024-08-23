@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 interface UserData {
     first_name?: string;
@@ -12,11 +12,11 @@ interface UserData {
   
   // Определяем компонент Header с типизацией пропсов
   export function Header({ userData }: HeaderProps) {
-  const { language, setLanguage } = useState();
+//   const { language, setLanguage } = useState();
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'ru' : 'en');
-  };
+//   const toggleLanguage = () => {
+//     setLanguage(language === 'en' ? 'ru' : 'en');
+//   };
   const userNameDisplay = userData?.username || `${userData?.first_name || ''} ${userData?.last_name || ''}`
 
   return (
@@ -26,8 +26,8 @@ interface UserData {
       </p>
       <div className='ml-auto'>
         <div className='text-black border-none bg-blue-200 w-9 h-9 justify-center flex border rounded-3xl'>
-          <button onClick={toggleLanguage}>
-            {language === 'ru' ? 'Ru' : 'En'}
+          <button >
+            
           </button>
         </div>
       </div>

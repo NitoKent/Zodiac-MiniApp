@@ -23,7 +23,7 @@ export function App() {
     }
   }, []);
 
-  const initialLanguage = userData?.language_code || 'en';
+
 
   return (
 
