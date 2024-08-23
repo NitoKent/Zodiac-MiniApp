@@ -28,7 +28,7 @@ export function App() {
 
       <div className='flex justify-center'>
         <div className='w-full bg-gray-900 text-white h-screen font-bold flex flex-col max-w-xl'>
-          <Header  />
+          <Header userData={userData} />
           <ZodiacList />
         </div>
       </div>
